@@ -1,13 +1,21 @@
-// app/api/chat/route.ts (Next.js 13+ App Router)
 import { OpenAI } from 'openai'
-import { NextResponse } from 'next/server'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 })
 
-export async function POST(req: Request) {
-  const { messages } = await req.json()
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method Not Allowed' })
+  }
+
+  const { messages } = req.body
+
+
+  if (!messages || !Array.isArray(messages)) {
+    return res.status(400).json({ error: 'Invalid request format' })
+  }
 
   try {
     const completion = await openai.chat.completions.create({
@@ -17,9 +25,9 @@ export async function POST(req: Request) {
     })
 
     const reply = completion.choices[0].message
-    return NextResponse.json({ reply })
+    res.status(200).json({ reply })
   } catch (error) {
-    console.error('Chat error:', error)
-    return NextResponse.json({ error: 'Failed to get response' }, { status: 500 })
+    console.error('OpenAI error:', error)
+    res.status(500).json({ error: 'OpenAI API call failed' })
   }
 }

@@ -4,7 +4,7 @@ import { CharacterStatsDisplay } from '@/components/CharacterStatsDisplay'
 import LogoPortal from '@/components/LogoPortal'
 import { characterCreatePrompt } from '@/prompts/characterCreate'
 import { useCharacterStore } from '@/store/character'
-import { useHistoryStore } from '@/store/history'
+import { Action, useHistoryStore } from '@/store/history'
 import { buttonClassName } from '@/styles/button'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
@@ -34,6 +34,7 @@ export default function CharacterCreator() {
   const [description, setDescription] = useState('')
   const [character, setCharacter] = useState<any>(null)
   const store = useCharacterStore()
+  const messages = useHistoryStore((state) => state.messages);
 
   const [loading, setLoading] = useState(false)
   const [createLoading, setCreateLoading] = useState(false)
@@ -65,7 +66,6 @@ export default function CharacterCreator() {
 
     } catch {
       setLoading(false)
-      // console.log('extractJsonFromCodeBlock(reply.content): ', extractJsonFromCodeBlock(reply.content));
       store.resetCharacter()
       alert('Ошибка парсинга ответа. Попробуй снова.')
     }
@@ -74,7 +74,7 @@ export default function CharacterCreator() {
   async function initNarrativeScene() {
     const character = useCharacterStore.getState().character
     const seed = useHistoryStore.getState().worldSeed
-
+    const setActions = useHistoryStore.getState().setActions
     if (!character || seed == null) throw new Error('Персонаж или seed не определены')
 
     try {
@@ -87,6 +87,9 @@ export default function CharacterCreator() {
       const { scene } = await res.json()
       if (!scene) throw new Error('Пустой ответ от API')
 
+      const actionMatches = [...scene.matchAll(/\[\[suggest:\s*(.*?)\s*\]\]/gi)];
+      const parsedActions = actionMatches.map(m => ({ type: "suggest", value: m[1] } as Action));
+      setActions(parsedActions);
       useHistoryStore.getState().addMessage({ type: 'master', text: scene })
       setCreateLoading(false)
       router.push('/game')

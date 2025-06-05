@@ -162,6 +162,7 @@ import { Action, Check, useHistoryStore } from "@/store/history";
 import LogoPortal from "@/components/LogoPortal";
 import DiceRollDisplay from "@/components/DiceRollDisplay";
 import { systemMessage } from "@/prompts/gameContinueMessage";
+import { CharacterStats } from '@/types/characterStats';
 
 export default function GameScreen() {
   const character = useCharacterStore((state) => state.character);
@@ -175,7 +176,7 @@ export default function GameScreen() {
   const [loading, setLoading] = useState(false);
   const [currentCheck, setCurrentCheck] = useState<Check | null>(null);
   const gameLength = useHistoryStore.getState().messages.length;
-  const handleSkillCheck = (skill: string, target: number) => {
+  const handleSkillCheck = (skill: keyof CharacterStats['skills'] , target: number) => {
     setCurrentCheck({
       skill,
       target,

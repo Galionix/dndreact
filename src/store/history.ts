@@ -49,7 +49,7 @@ export const useHistoryStore = create<HistoryState>()(
       addMessage: (message) =>
         set((state) => ({ messages: [...state.messages, message] })),
       clearHistory: () => set({ messages: [], worldSeed: null }),
-          setPendingChecks: (skill) => set({ pendingChecks: skill } as any),
+          setPendingChecks: (skill) => set({ pendingChecks: skill }),
           clearActions: () => set({actions: defaultActions})
     }),
     {

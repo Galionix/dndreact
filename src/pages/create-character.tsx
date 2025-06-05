@@ -8,6 +8,7 @@ import { Action, useHistoryStore } from '@/store/history'
 import { buttonClassName } from '@/styles/button'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { CharacterStats } from '@/types/characterStats'
 
 function extractJsonFromCodeBlock(content: string): string {
   const codeStart = content.indexOf('```json')
@@ -32,7 +33,7 @@ export default function CharacterCreator() {
   const router = useRouter()
 
   const [description, setDescription] = useState('')
-  const [character, setCharacter] = useState<any>(null)
+  const [character, setCharacter] = useState<CharacterStats | null>(null)
   const store = useCharacterStore()
   const messages = useHistoryStore((state) => state.messages);
 

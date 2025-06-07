@@ -16,6 +16,8 @@ export type Action = {
 };
 
 interface HistoryState {
+  charAvatar: string;
+  setCharAvatar: (b64s: string) => void;
   messages: Message[];
   worldSeed: string | null;
   pendingChecks: Check[];
@@ -24,23 +26,25 @@ interface HistoryState {
   clearHistory: () => void;
   setPendingChecks: (s: Check[]) => void;
   actions: Action[];
-    setActions: (a: Action[]) => void;
-    clearActions: () => void
+  setActions: (a: Action[]) => void;
+  clearActions: () => void;
 }
 const defaultActions: Action[] = [
-    {
-        type: 'default',
-        value: 'Осмотреться',
-    },
-    {
-        type: 'default',
-        value: 'Проверить инвентарь',
-    }
-]
+  {
+    type: "default",
+    value: "Осмотреться",
+  },
+  {
+    type: "default",
+    value: "Проверить инвентарь",
+  },
+];
 export const useHistoryStore = create<HistoryState>()(
   persist(
     (set) => ({
       messages: [],
+      charAvatar: "",
+      setCharAvatar: (charAvatar) => set({ charAvatar }),
       actions: [],
       setActions: (actions) => set({ actions: defaultActions.concat(actions) }),
       worldSeed: null,
@@ -49,8 +53,8 @@ export const useHistoryStore = create<HistoryState>()(
       addMessage: (message) =>
         set((state) => ({ messages: [...state.messages, message] })),
       clearHistory: () => set({ messages: [], worldSeed: null }),
-          setPendingChecks: (skill) => set({ pendingChecks: skill }),
-          clearActions: () => set({actions: defaultActions})
+      setPendingChecks: (skill) => set({ pendingChecks: skill }),
+      clearActions: () => set({ actions: defaultActions }),
     }),
     {
       name: "history-storage",

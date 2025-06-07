@@ -1,6 +1,8 @@
 import { useCharacterStore } from '@/store/character'
+import { useHistoryStore } from '@/store/history'
 import { CharacterStats } from '@/types/characterStats'
 import React from 'react'
+import MagicImageEffect from './MagicEffect'
 // import { useCharacterStore } from '@/stores/useCharacterStore'
 
 type Props = {
@@ -30,6 +32,7 @@ export const skillLabels: Record<string, string> = {
 
 export const CharacterStatsDisplay: React.FC<Props> = () => {
   const character = useCharacterStore(state => state.character)
+  const historyStorage = useHistoryStore()
   if(!character) return <p>Порсонаж не создан</p>
   const {
     name,
@@ -42,14 +45,27 @@ export const CharacterStatsDisplay: React.FC<Props> = () => {
     charisma,
     skills,
     inventory,
-    abilities
+    abilities,
   } = character
 
+  // console.log('charAvatar: ', charAvatar);
   return (
-    <div className="p-4 max-w-3xl mx-auto space-y-4 text-white">
+    <div className="p-4 max-w-3xl mx-auto space-y-4">
+      <div
+      className='flex justify-center items-center flex-col gap-4'
+      >
+      <img
+          src={historyStorage.charAvatar}
+          alt="Magic"
+          className=" inset-0 w-[100px] h-[100px] object-cover rounded-full shadow-xl z-10"
+        />
       <h1 className="text-3xl font-bold">{name}</h1>
-      <p className="text-lg text-gray-300">{description}</p>
-
+      </div>
+      <p className="text-lg text-text">{description}</p>
+      {/* {historyStorage.charAvatar &&           <div className="p-4">
+      <MagicImageEffect />
+    </div>   } */}
+      {/* {historyStorage.charAvatar && <img src={historyStorage.charAvatar} alt="AI generated" />} */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
         <Stat label="Сила" value={strength} />
         <Stat label="Ловкость" value={dexterity} />
@@ -70,7 +86,7 @@ export const CharacterStatsDisplay: React.FC<Props> = () => {
 
       <div>
         <h2 className="text-xl font-semibold mt-4 mb-1">Инвентарь</h2>
-        <ul className="list-disc list-inside text-gray-200">
+        <ul className="list-disc list-inside">
           {inventory.map((item, i) => (
             <li key={i}>{item}</li>
           ))}
@@ -79,7 +95,7 @@ export const CharacterStatsDisplay: React.FC<Props> = () => {
 
       <div>
         <h2 className="text-xl font-semibold mt-4 mb-1">Способности</h2>
-        <ul className="list-disc list-inside text-gray-200">
+        <ul className="list-disc list-inside">
           {abilities.map((a, i) => (
             <li key={i}>{a}</li>
           ))}

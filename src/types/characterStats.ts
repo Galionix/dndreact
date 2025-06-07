@@ -1,7 +1,6 @@
 export type CharacterStats = {
     name: string
     description: string
-
     strength: number
     dexterity: number
     constitution: number

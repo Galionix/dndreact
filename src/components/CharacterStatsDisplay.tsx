@@ -2,7 +2,6 @@ import { useCharacterStore } from '@/store/character'
 import { useHistoryStore } from '@/store/history'
 import { CharacterStats } from '@/types/characterStats'
 import React from 'react'
-import MagicImageEffect from './MagicEffect'
 // import { useCharacterStore } from '@/stores/useCharacterStore'
 
 type Props = {

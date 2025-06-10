@@ -176,80 +176,184 @@ export default function GameScreen() {
   };
 
   return (
-    <div className="p-4 max-w-4xl mx-auto text-foreground space-y-4 bg-bg">
-      <CharacterStatsDisplay character={character} />
+    // <div className="p-4 max-w-4xl mx-auto text-foreground space-y-4 bg-bg">
+    //   <CharacterStatsDisplay character={character} />
 
-      <div className="bg-overlay rounded p-4 space-y-2">
-        <h2 className="text-xl font-semibold mb-2">История</h2>
-        <div className="max-h-64 overflow-y-auto text-sm space-y-1">
-          {messages.map((entry, i) => (
-            <p
-              key={i}
-              className={
-                entry.type === "user" ? "text-blue-300" : "text-yellow-300"
-              }
-            >
-              {entry.type === "user" ? `Вы: ${entry.text}` : entry.text}
-            </p>
-          ))}
-        </div>
+    //   <div className="bg-overlay rounded p-4 space-y-2">
+    //     <h2 className="text-xl font-semibold mb-2">История</h2>
+    //     <div className="max-h-64 overflow-y-auto text-sm space-y-1">
+    //       {messages.map((entry, i) => (
+    //         <p
+    //           key={i}
+    //           className={
+    //             entry.type === "user" ? "text-blue-300" : "text-yellow-300"
+    //           }
+    //         >
+    //           {entry.type === "user" ? `Вы: ${entry.text}` : entry.text}
+    //         </p>
+    //       ))}
+    //     </div>
 
-        {pendingChecks &&
-          Array.isArray(pendingChecks) &&
-          pendingChecks.map((check, i) => (
-            <button
-              key={i}
-              onClick={() => handleSkillCheck(check.skill, check.value)}
-              className="mt-2 button"
-            >
-              Проверить навык: {skillLabels[check.skill]} (цель: {check.value})
-            </button>
-          ))}
-      </div>
-      <div className="rounded p-4">
-        <h2 className="text-xl font-semibold mb-2">Действия</h2>
-        <div className="flex flex-wrap gap-2">
-          {useHistoryStore.getState().actions.map((action, i) => (
-            <button
-              key={i}
-              // onClick={() => useItem(item)}
-              onClick={() => handleSubmitAction(action)}
-              className={
-                " px-2 py-1 text-sm rounded border border-yellow-500 hover:bg-yellow-900 " +
-                (action.type === "suggest"
-                  ? "border-blue-300!"
-                  : action.type === "use_item"
-                  ? "border-red-300!"
-                  : "border-green-300!")
-              }
-            >
-              {action.value}
-            </button>
-          ))}
-        </div>
-      </div>
-      <div className="bg-gray-800 rounded p-4">
-        <h2 className="text-xl font-semibold mb-2">Инвентарь</h2>
-        <div className="flex flex-wrap gap-2">
-          {character.inventory.map((item, i) => (
-            <button
-              key={i}
-              onClick={() => useItem(item)}
-              className="px-2 py-1 text-sm rounded border border-yellow-500 hover:bg-yellow-900"
-            >
-              {item}
-            </button>
-          ))}
-        </div>
-      </div>
-      <LogoPortal open={loading} />
-      {roll > 0 && (
-        <DiceRollDisplay
-          target={currentCheck?.value}
-          rolledNumber={roll}
-          proceed={proceedAfterRoll}
-        />
-      )}
+    //     {pendingChecks &&
+    //       Array.isArray(pendingChecks) &&
+    //       pendingChecks.map((check, i) => (
+    //         <button
+    //           key={i}
+    //           onClick={() => handleSkillCheck(check.skill, check.value)}
+    //           className="mt-2 button"
+    //         >
+    //           Проверить навык: {skillLabels[check.skill]} (цель: {check.value})
+    //         </button>
+    //       ))}
+    //   </div>
+    //   <div className="rounded p-4">
+    //     <h2 className="text-xl font-semibold mb-2">Действия</h2>
+    //     <div className="flex flex-wrap gap-2">
+    //       {useHistoryStore.getState().actions.map((action, i) => (
+    //         <button
+    //           key={i}
+    //           // onClick={() => useItem(item)}
+    //           onClick={() => handleSubmitAction(action)}
+    //           className={
+    //             " px-2 py-1 text-sm rounded border border-yellow-500 hover:bg-yellow-900 " +
+    //             (action.type === "suggest"
+    //               ? "border-blue-300!"
+    //               : action.type === "use_item"
+    //               ? "border-red-300!"
+    //               : "border-green-300!")
+    //           }
+    //         >
+    //           {action.value}
+    //         </button>
+    //       ))}
+    //     </div>
+    //   </div>
+    //   <div className="bg-gray-800 rounded p-4">
+    //     <h2 className="text-xl font-semibold mb-2">Инвентарь</h2>
+    //     <div className="flex flex-wrap gap-2">
+    //       {character.inventory.map((item, i) => (
+    //         <button
+    //           key={i}
+    //           onClick={() => useItem(item)}
+    //           className="px-2 py-1 text-sm rounded border border-yellow-500 hover:bg-yellow-900"
+    //         >
+    //           {item}
+    //         </button>
+    //       ))}
+    //     </div>
+    //   </div>
+    //   <LogoPortal open={loading} />
+    //   {roll > 0 && (
+    //     <DiceRollDisplay
+    //       target={currentCheck?.value}
+    //       rolledNumber={roll}
+    //       proceed={proceedAfterRoll}
+    //     />
+    //   )}
+    // </div>
+    <div className="p-4 max-w-4xl mx-auto space-y-4 bg-bg text-text">
+  <CharacterStatsDisplay character={character} />
+
+  <div className="rounded p-4 bg-overlay">
+    <h2 className="text-xl font-semibold mb-2">История</h2>
+    <div className="max-h-64 overflow-y-auto text-sm space-y-1">
+      {messages.map((entry, i) => (
+        <p
+          key={i}
+          style={{
+            color:
+              entry.type === "user"
+                ? "var(--color-user-message)"
+                : "var(--color-system-message)",
+          }}
+        >
+          {entry.type === "user" ? `Вы: ${entry.text}` : entry.text}
+        </p>
+      ))}
     </div>
+
+    {pendingChecks &&
+      Array.isArray(pendingChecks) &&
+      pendingChecks.map((check, i) => (
+        <button
+          key={i}
+          onClick={() => handleSkillCheck(check.skill, check.value)}
+          className="mt-2 px-2 py-1 rounded border text-sm bg-transparent text-button border-button hover:bg-button-hover transition"
+        >
+          Проверить навык: {skillLabels[check.skill]} (цель: {check.value})
+        </button>
+      ))}
+  </div>
+
+  <div className="rounded p-4 text-text">
+    <h2 className="text-xl font-semibold mb-2 text-text">Действия</h2>
+    <div className="flex flex-wrap gap-2">
+      {useHistoryStore.getState().actions.map((action, i) => {
+        const borderColor =
+          action.type === "suggest"
+            ? "var(--color-suggest)"
+            : action.type === "use_item"
+            ? "var(--color-use-item)"
+            : "var(--color-default-action)"
+        return (
+          <button
+            key={i}
+            onClick={() => handleSubmitAction(action)}
+            className="px-2 py-1 text-sm rounded border transition"
+            style={{
+              borderColor,
+              color: borderColor,
+              backgroundColor: "transparent",
+            }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.backgroundColor = "var(--color-hover-bg)")
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.backgroundColor = "transparent")
+            }
+          >
+            {action.value}
+          </button>
+        )
+      })}
+    </div>
+  </div>
+
+  <div className="rounded p-4 bg-[var(--color-inventory-bg)]">
+    <h2 className="text-xl font-semibold mb-2">Инвентарь</h2>
+    <div className="flex flex-wrap gap-2">
+      {character.inventory.map((item, i) => (
+        <button
+          key={i}
+          onClick={() => useItem(item)}
+          className="px-2 py-1 text-sm rounded border transition"
+          style={{
+            borderColor: "var(--color-inventory)",
+            color: "var(--color-inventory)",
+            backgroundColor: "transparent",
+          }}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.backgroundColor = "var(--color-hover-bg)")
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.backgroundColor = "transparent")
+          }
+        >
+          {item}
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <LogoPortal open={loading} />
+  {roll > 0 && (
+    <DiceRollDisplay
+      target={currentCheck?.value}
+      rolledNumber={roll}
+      proceed={proceedAfterRoll}
+    />
+  )}
+</div>
+
   );
 }

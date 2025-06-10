@@ -4,7 +4,9 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head />
-      <body className="antialiased">
+      <body className="antialiased bg-bg" style={{
+        background: 'var(--color-background)'
+      }}>
         <Main />
         <NextScript />
       </body>

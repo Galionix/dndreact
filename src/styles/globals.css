@@ -1,26 +1,94 @@
 @import "tailwindcss";
-/* @tailwind base;
+@tailwind base;
 @tailwind components;
-@tailwind utilities; */
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --overlay: #c2c0a9;
+  --color-background: #ffffff;
+  --color-foreground: #171717;
+  --color-overlay: #ffe2d4;
+  --color-border: #e5e7eb;
+
+  --color-primary: #3b82f6;         /* Синий */
+  --color-secondary: #facc15;       /* Жёлтый */
+  --color-highlight: #f97316;       /* Оранжевый */
+  --color-danger: #ef4444;          /* Красный */
+  --color-muted: #9ca3af;           /* Серый */
+
+  --color-suggest: #93c5fd;         /* Синий для подсказки */
+  --color-item: #fda4af;            /* Розовый предмет */
+  --color-ability: #6ee7b7;         /* Зелёный способности */
+
+  --color-inventory-bg: #f0f0f0;
+
+  --color-user-message: #2563eb;
+  --color-system-message: #9e6c00;
+
+  --color-button: #9333ea;
+  --color-button-hover: #c084fc;
+
+  --color-use-item: #f87171;
+  --color-default-action: #4ade80;
+  --color-hover-bg: rgba(0, 0, 0, 0.05);
+
+  --color-inventory: #facc15;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  --color-bg: var(--color-background);
+  --color-text: var(--color-foreground);
+  --color-overlay: var(--color-overlay);
+  --color-border: var(--color-border);
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-highlight: var(--color-highlight);
+  --color-danger: var(--color-danger);
+  --color-muted: var(--color-muted);
+  --color-suggest: var(--color-suggest);
+  --color-item: var(--color-item);
+  --color-ability: var(--color-ability);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    /* --background: #0a0a0a;
     --foreground: #ededed;
-    --overlay: #a3a291;
+    --overlay: #a3a291; */
+    --color-background: #0a0a0a;
+    --color-foreground: #ededed;
+    --color-overlay: #3a3a3a;
+    --color-border: #374151;
+
+    --color-primary: #60a5fa;       /* Синий */
+    --color-secondary: #fde68a;     /* Жёлтый */
+    --color-highlight: #fdba74;     /* Оранжевый */
+    --color-danger: #f87171;        /* Красный */
+    --color-muted: #6b7280;         /* Серый */
+
+    --color-suggest: #3b82f6;
+    --color-item: #f43f5e;
+    --color-ability: #34d399;
+
+    --color-background: #0e0e11;
+    --color-foreground: #ededed;
+    --color-inventory-bg: #141417;
+
+    --color-user-message: #93c5fd;
+    --color-system-message: #fde68a;
+
+    --color-button: #c084fc;
+    --color-button-hover: #a855f7;
+
+    --color-use-item: #f87171;
+    --color-default-action: #4ade80;
+    --color-hover-bg: rgba(255, 255, 255, 0.05);
+
+    --color-inventory: #facc15;
   }
 }
 
